@@ -97,6 +97,80 @@ app.get('/api/films/:id', async (req, res) => {
     }
 });
 
+app.get('/api/films/:id/characters', async (req, res) => {
+    try {
+        const { id } = req.params;
+        // Console log the entire request object
+        const client = await MongoClient.connect("mongodb://localhost:27017");
+        const db = client.db("swapi");
+        const collection = db.collection("films_characters");
+        const filmCharactersIds = await collection.find({ film_id : parseInt(id) }).toArray(); // update filter
+        if (filmCharactersIds.length === 0) {
+            res.status(404).send("No results found!");
+        }
+
+        const characterIds = filmCharactersIds.map(fc => fc.character_id);
+        const charactersCollection = db.collection("characters");
+        const characters = await charactersCollection.find({ id: { $in: characterIds } }).toArray();
+    
+
+        res.json(characters);
+    } catch (err) {
+        console.error("Error:", err);
+        res.status(500).send("Hmmm, something went wrong");
+    }
+});
+
+
+app.get('/api/characters/:id/films', async (req, res) => {
+    try {
+        const { id } = req.params;
+        // Console log the entire request object
+        const client = await MongoClient.connect("mongodb://localhost:27017");
+        const db = client.db("swapi");
+        const collection = db.collection("films_characters");
+        const characaterFilmsIds = await collection.find({ character_id : parseInt(id) }).toArray(); // update filter
+        if ( characaterFilmsIds.length === 0) {
+            res.status(404).send("No results found!");
+        }
+
+        const filmIds =  characaterFilmsIds.map(fc => fc.film_id);
+        const filmsCollection = db.collection("films");
+        const films = await filmsCollection.find({ id: { $in: filmIds } }).toArray();
+    
+
+        res.json(films);
+    } catch (err) {
+        console.error("Error:", err);
+        res.status(500).send("Hmmm, something went wrong");
+    }
+});
+
+app.get('/api/films/:id/planets', async (req, res) => {
+    try {
+        const { id } = req.params;
+        // Console log the entire request object
+        const client = await MongoClient.connect("mongodb://localhost:27017");
+        const db = client.db("swapi");
+        const collection = db.collection("films_planets");
+        const filmPlanetsIds = await collection.find({ film_id : parseInt(id) }).toArray(); // update filter
+        if (filmPlanetsIds.length === 0) {
+            res.status(404).send("No results found!");
+        }
+
+        const planetIds = filmPlanetsIds.map(fc => fc.planet_id);
+        const planetsCollection = db.collection("planets");
+        const planets = await planetsCollection.find({ id: { $in: planetIds } }).toArray();
+    
+
+        res.json(planets);
+    } catch (err) {
+        console.error("Error:", err);
+        res.status(500).send("Hmmm, something went wrong");
+    }
+});
+
+
 app.get('/api/planets/:id', async (req, res) => {
     try {
         const { id } = req.params;
@@ -115,6 +189,31 @@ app.get('/api/planets/:id', async (req, res) => {
         res.status(500).send("Hmmm, something went wrong");
     }
 });
+
+app.get('/api/planets/:id/films', async (req, res) => {
+    try {
+        const { id } = req.params;
+        // Console log the entire request object
+        const client = await MongoClient.connect("mongodb://localhost:27017");
+        const db = client.db("swapi");
+        const collection = db.collection("films_planets");
+        const planetFilmIds = await collection.find({ planet_id : parseInt(id) }).toArray(); // update filter
+        if (planetFilmIds.length === 0) {
+            res.status(404).send("No results found!");
+        }
+
+        const filmIds = planetFilmIds.map(fc => fc.film_id);
+        const filmCollection = db.collection("films");
+        const films = await filmCollection.find({ id: { $in:filmIds } }).toArray();
+    
+
+        res.json(films);
+    } catch (err) {
+        console.error("Error:", err);
+        res.status(500).send("Hmmm, something went wrong");
+    }
+});
+
 
 
 app.listen(PORT, () => {
