@@ -72,7 +72,7 @@ app.get('/api/characters/:id', async (req, res) => {
         if (chars.length === 0) {
             res.status(404).send("No results found!");
         }
-        res.json(chars);
+        res.json(chars[0]);
     } catch (err) {
         console.error("Error:", err);
         res.status(500).send("Hmmm, something went wrong");
@@ -90,7 +90,7 @@ app.get('/api/films/:id', async (req, res) => {
         if (film.length === 0) {
             res.status(404).send("No results found!");
         }
-        res.json(film);
+        res.json(film[0]);
     } catch (err) {
         console.error("Error:", err);
         res.status(500).send("Hmmm, something went wrong");
@@ -109,7 +109,7 @@ app.get('/api/planets/:id', async (req, res) => {
         if (planet.length === 0) {
             res.status(404).send("No results found!");
         }
-        res.json(planet);
+        res.json(planet[0]);
     } catch (err) {
         console.error("Error:", err);
         res.status(500).send("Hmmm, something went wrong");
