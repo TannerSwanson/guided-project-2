@@ -1,36 +1,57 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Assuming you're using react-router for navigation
 
-function Character(){
-    const [data, setData] = useState([]);
+function Characters() {
+  const [characters, setCharacters] = useState([]);
+  const [matchingCharacters, setMatchingCharacters] = useState([]);
+  const [searchString, setSearchString] = useState('');
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchData = async () => {
-          setIsLoading(true);
-          try {
-            const response = await fetch('');
-            
-            if (!response.ok) {
-              throw new Error(`Error: ${response.status}`);
-            }
-            
-            const result = await response.json();
-            setData(result);
-            setError(null);
-          } catch (err) {
-            setError(err.message);
-            setData([]);
-          } finally {
-            setIsLoading(false);
-          }
-        };
-    
-    
-        fetchData();
-      }, []); 
+  useEffect(() => {
+    const fetchCharacters = async () => {
+      const url = 'http://localhost:3000/api/characters';
 
-    return(
-        <>
-            <p>Map data here</p>
-        </>
-    );
+      try {
+        const response = await fetch(url);
+        const fetchedCharacters = await response.json();
+        setCharacters(fetchedCharacters);
+        setMatchingCharacters(fetchedCharacters); // Initially set matching characters to all characters
+      } catch (ex) {
+        console.error("Error reading characters.", ex.message);
+      }
+    };
+
+    fetchCharacters();
+  }, []);
+
+  const filterCharacters = () => {
+    const re = new RegExp(searchString, "i");
+    const filtered = characters.filter(character => re.test(character.name));
+    setMatchingCharacters(filtered);
+  };
+
+  const goToCharacterPage = (id) => {
+    navigate(`/character.html?id=${id}`);
+  };
+
+  return (
+    <div>
+      <input
+        type="text"
+        value={searchString}
+        onChange={(e) => setSearchString(e.target.value)}
+        placeholder="Search characters"
+      />
+      <button onClick={filterCharacters}>Search</button>
+      <div id="charactersList">
+        {matchingCharacters.map(character => (
+          <div key={character.id} onClick={() => goToCharacterPage(character.id)}>
+            {character.name}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
+
+export default Characters;
