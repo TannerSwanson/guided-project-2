@@ -214,6 +214,34 @@ app.get('/api/planets/:id/films', async (req, res) => {
     }
 });
 
+app.get('/api/planets/:id/characters', async (req, res) => {
+    try {
+        const { id } = req.params;
+        // Console log the entire request object
+        const client = await MongoClient.connect("mongodb://localhost:27017");
+        const db = client.db("swapi");
+        const collection = db.collection("films_planets");
+        const planetFilmIds = await collection.find({ planet_id : parseInt(id) }).toArray(); // update filter
+        if (planetFilmIds.length === 0) {
+            res.status(404).send("No results found!");
+        }
+
+        const filmIds = planetFilmIds.map(fc => fc.film_id);
+        const filmCollection = db.collection("films_characters");
+        const filmCharacterIds = await filmCollection.find({ film_id: parseInt(filmIds) }).toArray();
+
+        const characterIds = filmCharacterIds.map(fc => fc.character_id);
+        const characterCollection = db.collection("characters");
+        const characters = await characterCollection.find({ id: {$in: characterIds} }).toArray();
+
+        res.json(characters);
+    } catch (err) {
+        console.error("Error:", err);
+        res.status(500).send("Hmmm, something went wrong");
+    }
+});
+
+
 
 
 app.listen(PORT, () => {
