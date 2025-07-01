@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 function Film(){
     const [data, setData] = useState([]);
     const [planets, setPlanets] = useState([]);
     const [characters, setCharacters] = useState([]);
     const { id } = useParams();
+    const navigate = useNavigate();
+
 
     useEffect(() => {
         
@@ -72,6 +74,15 @@ function Film(){
         fetchData();
         fetchCharacters();
       }, []); 
+
+      const goToPlanetPage = (id) => {
+        navigate(`/planet/${id}`);
+    };
+
+    const goToCharacterPage = (id) => {
+        navigate(`/character/${id}`);
+    };
+
     if (!data || Object.keys(data).length === 0){
       return(
         <>
@@ -97,7 +108,7 @@ function Film(){
           {characters.map(c =>{
                         return(
                             <div key={c.id}>
-                            <p>{c.name}</p>
+                            <p onClick={() => goToCharacterPage(character.id)}>{c.name}</p>
                             </div>
                         );
 
@@ -108,7 +119,7 @@ function Film(){
             {planets.map(p =>{
                         return(
                             <div key={p.id}>
-                            <p>{p.name}</p>
+                            <p onClick={() => goToPlanetPage(p.id)}>{p.name}</p>
                             </div>
                         );
 
