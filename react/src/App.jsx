@@ -5,6 +5,8 @@ import viteLogo from '/vite.svg'
 import Planet from './components/Planet';
 import Film from './components/Film';
 import './App.css'
+import Characters from './components/Characters';
+import Character from './components/Character';
 
 function App() {
 
@@ -15,6 +17,8 @@ function App() {
       <Routes>
           <Route path="/Planet/:id" element={<Planet />} />
           <Route path="/Film/:id" element={<Film />} />
+          <Route path="/" element={<Characters />} />
+          <Route path="/character/:id" element={<Character />} />
       </Routes>
     </BrowserRouter>
     </>
