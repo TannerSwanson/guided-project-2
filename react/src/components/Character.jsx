@@ -68,11 +68,11 @@ function Character() {
             <section id="films">
             <h2>Films appeared in</h2>
             <div id="charactersList">
-                {films.map(film => (
+                {films && films.length > 0 ? (films.map(film => (
                 <div key={film.id} onClick={() => goToFilmPage(film.id)}>
                     {film.title}
                 </div>
-                ))}
+                ))) : (<p>No film appearances :/</p>)}
             </div>
             </section>
         </main>
