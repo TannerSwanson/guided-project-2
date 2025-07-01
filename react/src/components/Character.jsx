@@ -15,6 +15,9 @@ function Character() {
 
         try {
             const response = await fetch(url);
+            if (response.status === 404) {
+                alert("This ID does not exist!");
+            }
             const fetchedCharacters = await response.json();
             setCharacters(fetchedCharacters);
             homeworldFinder(fetchedCharacters.homeworld);

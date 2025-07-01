@@ -175,7 +175,6 @@ app.get('/api/films/:id/planets', async (req, res) => {
 app.get('/api/planets/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        console.log(id);
         // Console log the entire request object
         const client = await MongoClient.connect("mongodb://localhost:27017");
         const db = client.db("swapi");
