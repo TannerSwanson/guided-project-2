@@ -17,6 +17,7 @@ app.get('/api/characters', async (req, res) => {
         const db = client.db("swapi");
         const collection = db.collection("characters");
         const char = await collection.find({}).toArray();
+        console.log("character:", char);
         if (char.length === 0) {
             res.status(404).send("No results found!");
         }
