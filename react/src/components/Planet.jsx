@@ -100,7 +100,7 @@ function Planet(){
                 <p>Climate: <span id="climate">{data.climate}</span></p>
                 <p>Surface Water: <span id="surface_water">{data.surface_water}</span></p>
                 <p>Diameter: <span id="diameter">{data.diameter}</span></p>
-                <p>Rotation Period: <span id="rotational_period">{data.rotational_period}</span></p>
+                <p>Rotation Period: <span id="rotational_period">{data.rotation_period}</span></p>
                 <p>Terrain: <span id="terrain">{data.terrain}</span></p>
                 <p>Gravity: <span id="gravity">{data.gravity}</span></p>
                 <p>Orbital Period: <span id="orbital_period">{data.orbital_period}</span></p>
@@ -109,27 +109,31 @@ function Planet(){
                 
                 <section id="films">
                 <h2>Films appeared in</h2>
-                    {films.map(film =>{
+                <div id="charactersList">
+                    {films && films.length > 0 ? (films.map(film =>{
                         return(
                             <div key={film.id}>
                             <p onClick={() => goToFilmPage(film.id)}>{film.title}</p>
                             </div>
                         );
 
-                    })}
+                    })) : (<p>No film appearances.</p>)}
+                </div>
                 
                 </section>
 
                 <section id="characters">
                     <h2>Characters visited</h2>
-                    {characters.map(c =>{
+                    <div id="charactersList">
+                    {characters && characters.length > 0? (characters.map(c =>{
                         return(
                             <div key={c.id}>
                             <p onClick={() => goToCharacterPage(c.id)}>{c.name}</p>
                             </div>
                         );
 
-                    })}
+                    })) : (<p>No characters visited.</p>)}
+                    </div>
                 </section>
         </>
     );

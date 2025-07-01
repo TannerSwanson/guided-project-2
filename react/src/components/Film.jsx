@@ -98,32 +98,37 @@ function Film(){
           <h1 id="film">{data.title}</h1>
         <section id="generalInfo">
           <p>Director: <span id="director">{data.director}</span></p>
-          <p>Episode: <span id="episode">{data.episode}</span></p>
+          <p>Episode: <span id="episode">{data.episode_id}</span></p>
           <p>Release Date: <span id="date">{data.release_date}</span></p>
           <p>Producers: <span id="producer">{data.producer}</span></p>
         </section>
         <p id="opening_crawl"></p>
         <section id="characters">
           <h2>Characters Visited:</h2>
-          {characters.map(c =>{
+          <div id="charactersList">
+          {characters ? (characters.map(c =>{
                         return(
                             <div key={c.id}>
-                            <p onClick={() => goToCharacterPage(character.id)}>{c.name}</p>
+                            <p onClick={() => goToCharacterPage(c.id)}>{c.name}</p>
                             </div>
                         );
 
-                    })}
+                    })) : (<p>No character appearances.</p>)}
+          </div>
         </section>
         <section id="planets">
-            <h2>Planet Appearances</h2>
-            {planets.map(p =>{
+            <h2>Planet Appearances:</h2>
+            <div id="charactersList">
+            {planets ? (planets.map(p =>{
                         return(
                             <div key={p.id}>
-                            <p onClick={() => goToPlanetPage(p.id)}>{p.name}</p>
+                            <p  onClick={() => goToPlanetPage(p.id)}>{p.name}</p>
                             </div>
                         );
 
-                    })}
+                    })) : (
+                <p>No planet appearances.</p> )}
+            </div>
         </section>
 
         </>
