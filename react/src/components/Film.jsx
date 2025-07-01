@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-function Planet(){
+function Film(){
     const [data, setData] = useState([]);
-    const [films, setFilms] = useState([]);
+    const [planets, setPlanets] = useState([]);
     const [characters, setCharacters] = useState([]);
     const { id } = useParams();
 
@@ -13,7 +13,7 @@ function Planet(){
 
         const fetchData = async () => {
           try {
-            const response = await fetch(`http://localhost:3000/api/planets/${id}`);
+            const response = await fetch(`http://localhost:3000/api/films/${id}`);
             
             if (!response.ok) {
               throw new Error(`Error: ${response.status}`);
@@ -26,13 +26,13 @@ function Planet(){
             console.log("Error", err)
             setData([]);
           } finally {
-            console.log("Finished Fetching Planets")
+            console.log("Finished Fetching Films")
           }
         };
 
-        const fetchFilms = async () => {
+        const fetchPlanets = async () => {
             try {
-              const response = await fetch(`http://localhost:3000/api/planets/${id}/films`);
+              const response = await fetch(`http://localhost:3000/api/films/${id}/planets`);
               
               if (!response.ok) {
                 throw new Error(`Error: ${response.status}`);
@@ -40,10 +40,10 @@ function Planet(){
               
               const result = await response.json();
               console.log(result);
-              setFilms(result);
+              setPlanets(result);
             } catch (err) {
               console.log("Error", err)
-              setFilms([]);
+              setPlanets([]);
             } finally {
               console.log("Finished Fetching Planets")
             }
@@ -51,7 +51,7 @@ function Planet(){
 
           const fetchCharacters = async () => {
             try {
-              const response = await fetch(`http://localhost:3000/api/planets/${id}/characters`);
+              const response = await fetch(`http://localhost:3000/api/films/${id}/characters`);
               
               if (!response.ok) {
                 throw new Error(`Error: ${response.status}`);
@@ -68,41 +68,24 @@ function Planet(){
             }
           };
     
-        fetchFilms();
+        fetchPlanets();
         fetchData();
         fetchCharacters();
       }, []); 
 
     return(
         <>
-                <h1 id="name">{data.name}</h1>
-                <section id="generalInfo">
-                <p>Climate: <span id="climate">{data.climate}</span></p>
-                <p>Surface Water: <span id="surface_water">{data.surface_water}</span></p>
-                <p>Diameter: <span id="diameter">{data.diameter}</span></p>
-                <p>Rotation Period: <span id="rotational_period">{data.rotational_period}</span></p>
-                <p>Terrain: <span id="terrain">{data.terrain}</span></p>
-                <p>Gravity: <span id="gravity">{data.gravity}</span></p>
-                <p>Orbital Period: <span id="orbital_period">{data.orbital_period}</span></p>
-                <p>Population: <span id="population">{data.population}</span></p>
-                </section>
-                
-                <section id="films">
-                <h2>Films appeared in</h2>
-                    {films.map(film =>{
-                        return(
-                            <div key={film.id}>
-                            <p>{film.title}</p>
-                            </div>
-                        );
-
-                    })}
-                
-                </section>
-
-                <section id="characters">
-                    <h2>Characters visited</h2>
-                    {characters.map(c =>{
+          <h1 id="film">{data.title}</h1>
+        <section id="generalInfo">
+          <p>Director: <span id="director">{data.director}</span></p>
+          <p>Episode: <span id="episode">{data.episode}</span></p>
+          <p>Release Date: <span id="date">{data.release_date}</span></p>
+          <p>Producers: <span id="producer">{data.producer}</span></p>
+        </section>
+        <p id="opening_crawl"></p>
+        <section id="characters">
+          <h2>Characters Visited:</h2>
+          {characters.map(c =>{
                         return(
                             <div key={c.id}>
                             <p>{c.name}</p>
@@ -110,9 +93,21 @@ function Planet(){
                         );
 
                     })}
-                </section>
+        </section>
+        <section id="planets">
+            <h2>Planet Appearances</h2>
+            {planets.map(p =>{
+                        return(
+                            <div key={p.id}>
+                            <p>{p.name}</p>
+                            </div>
+                        );
+
+                    })}
+        </section>
+
         </>
     );
 }
 
-export default Planet;
+export default Film;
