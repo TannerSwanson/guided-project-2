@@ -104,7 +104,7 @@ function Film(){
         </section>
         <p id="opening_crawl"></p>
         <section id="characters">
-          <h2>Characters Visited:</h2>
+          <h2>Character Appearances:</h2>
           <div id="charactersList">
           {characters ? (characters.map(c =>{
                         return(
