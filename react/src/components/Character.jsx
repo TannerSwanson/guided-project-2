@@ -12,13 +12,11 @@ function Character() {
     useEffect(() => {
         const fetchCharacters = async () => {
         const url = `http://localhost:3000/api/characters/${id}`;
+        let fetchedCharacters;
 
         try {
             const response = await fetch(url);
-            if (response.status === 404) {
-                alert("This ID does not exist!");
-            }
-            const fetchedCharacters = await response.json();
+            fetchedCharacters = await response.json();
             setCharacters(fetchedCharacters);
             homeworldFinder(fetchedCharacters.homeworld);
             filmFinder(fetchedCharacters.id);
@@ -50,6 +48,16 @@ function Character() {
   const goToPlanetPage = (id) => {
     navigate(`/planet/${id}`);
   };
+
+  if (!characters || Object.keys(characters).length === 0){
+    return(
+      <>
+      <h1>Nothing Found!</h1>
+      <p>Please try another character.</p>
+      </>
+    )
+
+  }
 
   return (
     <div>
