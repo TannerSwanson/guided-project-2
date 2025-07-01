@@ -72,6 +72,16 @@ function Planet(){
         fetchData();
         fetchCharacters();
       }, []); 
+      
+      if (!data || Object.keys(data).length === 0){
+        return(
+          <>
+          <h1>Nothing Found!</h1>
+          <p>Please try another planet.</p>
+          </>
+        )
+  
+      }
 
     return(
         <>
