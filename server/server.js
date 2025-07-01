@@ -8,6 +8,7 @@ import cors from 'cors';
 const app = express();
 app.use(cors()); // Enable CORS for all routes
 app.use(express.json()); // Middleware to parse JSON bodies
+app.use(express.static('./public'));
 const PORT = 3000;
 
 app.get('/api/characters', async (req, res) => {

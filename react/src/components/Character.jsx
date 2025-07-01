@@ -13,6 +13,7 @@ function Character() {
         const fetchCharacters = async () => {
         const url = `http://localhost:3000/api/characters/${id}`;
         let fetchedCharacters;
+        let checkedAPI = false;
 
         try {
             const response = await fetch(url);
@@ -22,6 +23,8 @@ function Character() {
             filmFinder(fetchedCharacters.id);
         } catch (ex) {
             console.error("Error reading characters.", ex.message);
+        } finally {
+            checkedAPI = true;
         }
     };
 
@@ -49,7 +52,7 @@ function Character() {
     navigate(`/planet/${id}`);
   };
 
-  if (!characters || Object.keys(characters).length === 0){
+  if (checkedAPI && (!characters || Object.keys(characters).length === 0)){
     return(
       <>
       <h1>Nothing Found!</h1>
