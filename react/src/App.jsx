@@ -12,7 +12,7 @@ function App() {
     <>
       <BrowserRouter>
       <Routes>
-          <Route path="/planet" element={<Planet />} />
+          <Route path="/Planet/:id" element={<Planet />} />
       </Routes>
     </BrowserRouter>
     </>

@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
-function Planet(prop){
+function Planet(){
     const [data, setData] = useState([]);
     const [films, setFilms] = useState([]);
     const [characters, setCharacters] = useState([]);
-    const [searchParams] = useSearchParams();
+    const { id } = useParams();
 
     useEffect(() => {
-        const id = searchParams.get('id');
+        
         console.log("Got id: ", id)
 
         const fetchData = async () => {
