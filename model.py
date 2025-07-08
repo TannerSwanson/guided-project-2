@@ -31,10 +31,6 @@ feature_importances = pd.DataFrame({'Feature': X.columns, 'Importance': importan
 
 feature_importances = feature_importances.sort_values(by='Importance', ascending=False)
 
-# Print the sorted feature importances
-print(feature_importances)
-
-# Plot the feature importances
 feature_importances.plot(kind='bar', x='Feature', y='Importance', figsize=(8, 6), legend=False)
 plt.title("Feature Importance from Decision Tree")
 plt.ylabel("Importance Score")
