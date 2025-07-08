@@ -1,4 +1,6 @@
-json-data/
+json-data/*
+json-data
 server/.env
 server/node_modules
 server/package-lock.json
+project1_code/
