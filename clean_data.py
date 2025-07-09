@@ -46,7 +46,6 @@ predictions = dt.predict(X)
 print(cleaned_df.head(10))
 print(predictions[0 : 10])
 
-# Add predictions to your DataFrame
 cleaned_df['predictions'] = predictions
 
 print(cleaned_df.head(15))
